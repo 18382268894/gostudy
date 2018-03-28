@@ -1,12 +1,23 @@
 package main
-import(
+
+import (
 	"fmt"
 )
 
-func main(){
-	var arr [2][3]int = [2][3]int{
-		{1,2,3},
-		{4,5,6},
+func main() {
+	var arr = [2][3]int{
+		{1, 2, 3},
+		{4, 5, 6},
 	}
-	fmt.Println(arr)
+	rangeArr(arr)
+}
+
+//遍历二维数组
+func rangeArr(arr [2][3]int) {
+	for index, values := range arr {
+		for i, v := range values {
+			fmt.Printf("arr[%d][%d]=%d\t", index, i, v)
+		}
+		fmt.Println()
+	}
 }
