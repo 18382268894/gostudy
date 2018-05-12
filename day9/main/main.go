@@ -20,6 +20,7 @@ func main() {
 		return nil
 	}
 	app.Run(os.Args)
+	fmt.Printf("hello")
 
 }
 
