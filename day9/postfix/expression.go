@@ -25,5 +25,5 @@ func (exps *Expression) add(str string) {
 //输出表达式
 
 func(exps *Expression)PrintExps(){
-	fmt.Println(exps.exp[:exps.num])
+	fmt.Printf("后缀式表达式：%v\n",exps.exp[:exps.num])
 }
