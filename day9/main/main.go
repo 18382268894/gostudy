@@ -1,15 +1,13 @@
 package main
 
 import (
-	"fmt"
-
 	"day9/postfix"
 )
 
 func main() {
 	var exps = postfix.NewExpression() //表达式
 	var opStack = postfix.NewStack()   //符号栈
-	var str string = "21*(93+6/3-51)+4-19"
+	var str string = "(3+4)*5-6"
 	postfix.DealStr(str, exps, opStack)
-	fmt.Printf("表达式：%v", exps)
+	exps.PrintExps()
 }

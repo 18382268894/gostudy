@@ -19,26 +19,11 @@ func (exps *Expression) add(str string) {
 
 	exps.exp[exps.num] = str
 	exps.num++
-	fmt.Printf("表达式：%v\n",exps.exp)
+
 }
 
-//将表达式字符串数组转化为字符串
-func (exps *Expression) ToString() string {
-	var str string = ""
-	for i := 0; i < exps.num; i++ {
-		str = str + exps.exp[i]
-	}
-	return str
-}
+//输出表达式
 
-/*func(exps *Expression)Assign(strs []string){
-	exps.exp
-}*/
-
-/*func Test() {
-	var expss = NewExpression()
-	expss.add("100")
-	expss.add("200")
-	fmt.Println(expss.ToString())
+func(exps *Expression)PrintExps(){
+	fmt.Println(exps.exp[:exps.num])
 }
-*/

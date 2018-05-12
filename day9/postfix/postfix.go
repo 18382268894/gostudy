@@ -1,7 +1,5 @@
 package postfix
 
-import "fmt"
-
 //比较两个运算符的优先级
 func CompareOperator(op1 string, op2 string) int {
 	if op1 == "+" || op1 == "-" {
@@ -37,9 +35,11 @@ func DealStr(str string, exps *Expression, opStack *Stack) {
 	for i := 0; i < len(str); i++ {
 		if str[i] >= 48 && str[i] <= 57 {
 			numStr = numStr + string(str[i])
+			if i == len(str)-1{ //处理输入的式子中最后一个数字
+				exps.add(numStr)
+			}
 		} else {
-
-			if numStr != "" {
+			if numStr != "" {  //将数字存入表达式中
 				exps.add(numStr)
 				numStr = ""
 			}
@@ -51,35 +51,29 @@ func DealStr(str string, exps *Expression, opStack *Stack) {
 
 		}
 	}
-	exps.add(string(str[len(str)-1]))
+	length := opStack.top
+	for i:=0;i<length;i++{
+		lastOp,_ := opStack.pop()   //处理符号栈中最后的符号
+
+		exps.add(lastOp)
+	}
+
 }
 
 //处理运算符
 func dealOp(op2 string, opStack *Stack, exps *Expression) {
 	for {
-		op1 := opStack.topElem()
-		fmt.Printf("栈顶符号：%v\n",op1)
-		compResult := CompareOperator(op1, op2)
-		if compResult == 1 {
-			opStack.push(op2)
-			if opStack.top == 0 {
-				fmt.Printf("符号栈:%v\n",[]string{""})
-			}else {
-				fmt.Printf("符号栈:%v\n",opStack.elem[:opStack.top-1])
-			}
 
+		op1 := opStack.topElem()   //获取符号栈顶元素
+
+		compResult := CompareOperator(op1, op2)
+		if compResult == 1 {   //如果op2大于栈顶符号，将op2存入符号栈中，并退出当前循环
+			opStack.push(op2)
 			break
 		}
-		if compResult == -1 {
+		if compResult == -1 {   //如果op2小于栈顶符号，将op1弹出符号栈并存入表达式中，循环比较op2和下一个栈顶符号
 			opStack.pop()
 			exps.add(op1)
-			fmt.Printf("top：%d\n",opStack.top)
-			if opStack.top == 0 {
-				fmt.Printf("符号栈:%v\n",[]string{""})
-			}else {
-				fmt.Printf("符号栈:%v\n",opStack.elem[:opStack.top-1])
-			}
-
 		}
 	}
 
@@ -87,9 +81,8 @@ func dealOp(op2 string, opStack *Stack, exps *Expression) {
 
 //处理括号
 func dealBracket(opStack *Stack, exps *Expression) {
-	for {
+	for {  //弹出右括号前的所有符号存入表达式中，直到遇到左括号，将左括号扔掉
 		op1 := opStack.topElem()
-		fmt.Printf("栈顶符号：%v\n",op1)
 		if op1 == "(" {
 			opStack.pop()
 			break
