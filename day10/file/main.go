@@ -6,7 +6,6 @@ import (
 )
 
 func main(){
-	os.Create("1.txt")
 	fileName := "src/day10/file/test.txt"   //文件根目录是以GOPATH为基准
 	file,err := os.Open(fileName)
 	defer file.Close()
@@ -20,4 +19,5 @@ func main(){
 		return
 	}
 	fmt.Println(string(buf[:n]))
+
 }
